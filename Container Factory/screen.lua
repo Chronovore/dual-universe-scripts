@@ -63,7 +63,7 @@ function renderColumn(title, machineInfos, x, y, spacing, tileHeight)
     y = y + 10
     local index = 0
     for name, machineInfo in pairs(machineInfos) do
-        renderMachineInfo(name, machineInfo, x, y + fontSize + 2 + index * tileHeight + index * spacing)
+        renderMachineInfo(machineInfo.name, machineInfo, x, y + fontSize + 2 + index * tileHeight + index * spacing)
         index = index + 1
     end
 end
