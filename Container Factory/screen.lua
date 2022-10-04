@@ -10,6 +10,7 @@ local colorWhite = { r = 1, g = 1, b = 1 }
 local colorRed = { r = 1, g = 0, b = 0 }
 local colorYellow = { r = 1, g = 1, b = 0 }
 local colorGreen = { r = 0, g = 1, b = 0 }
+
 local statusNames = {
     [1] = { text = "Stopped", color = colorYellow },
     [2] = { text = "Running", color = colorGreen },
@@ -20,6 +21,7 @@ local statusNames = {
     [7] = { text = "No Schematics", color = colorRed }
 }
 local machineRenderHeight = 2 * 2 * fontSize + 2 * 2
+local machineRenderWidth = 200
 local mineRenderHeight = machineRenderHeight + machineRenderHeight
 local machineRenderWidth = 200
 
@@ -67,26 +69,27 @@ function renderColumn(title, machineInfos, x, y, spacing, tileHeight)
 end
 
 -- Data from controller
-local data = json.decode(getInput()) or {}
-local assemblyColumn = {
-    ["Small Assembler"] = data.smallAssembler, 
-    ["Medium Assembler"] = data.containers, 
-    ["Pipes"] = data.pipes
-}
-local refinerColumn = {
-    ["Bauxite Refiner"] = data.bauxiteRefiner,
-    ["Coal Refiner"] = data.coalRefiner
-}
-local intermediatesColumn = {
-    ["Silumin Smelter"] = data.siluminSmelter
-}
-local minesColumn = {
-    ["Coal Mine"] = data.coalMine,
-    ["Bauxite Mine"] = data.bauxiteMine,
-    ["Hematite Mine"] = data.hematiteMine
-}
+function renderColumns(columns, left, top, horizontalSpacing)
+    local index = 0
+    local renderHeight = 0
+    for columnName, machines in pairs(columns) do
+        if (machines[1].remainingTime) then
+            renderHeight = mineRenderHeight
+        else
+            renderHeight = machineRenderHeight
+        end
+        renderColumn(columnName, machines, left + (machineRenderWidth + horizontalSpacing) * index, top, 10, renderHeight)
+        index = index + 1
+    end
+end
 
-renderColumn("Assembly", assemblyColumn, 5, 0, 10, machineRenderHeight)
-renderColumn("Refinery", refinerColumn, 5 + machineRenderWidth + 20, 0, 10, machineRenderHeight)
-renderColumn("Intermediates", intermediatesColumn, 5 + 2 * machineRenderWidth + 2 * 20, 0, 10, machineRenderHeight)
-renderColumn("Mines", minesColumn, 5 + 3 * machineRenderWidth + 3 * 20, 0, 10, mineRenderHeight)
+local data = json.decode(getInput()) or {}
+local columns = {}
+for key, machine in ipairs(data) do
+    if (not columns[machine.category]) then
+        columns[machine.category] = {}
+    end
+    table.insert(columns[machine.category], machine)
+end
+
+renderColumns(columns, 8, 0, 10)

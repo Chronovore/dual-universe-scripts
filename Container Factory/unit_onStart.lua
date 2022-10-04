@@ -1,34 +1,39 @@
-function packageMachineInfo(machine)
+function packageMachineInfo(machine, category)
+    local info = machine.getInfo()
     return {
-        state = machine.state,
-        item = system.getItem(machine.currentProducts[1].id).displayNameWithSize
+        name = machine.getName(),
+        state = info.state,
+        item = system.getItem(info.currentProducts[1].id).displayNameWithSize,
+        category = category
     }
 end
 
-function packageMineInfo(mine)
+function packageMineInfo(mine, category)
     return {
+        name = mine.getName(),
         state = mine.getState(),
         item = system.getItem(mine.getActiveOre()).displayNameWithSize,
         remainingTime = mine.getRemainingTime(),
-        rate = mine.getProductionRate()
+        rate = mine.getProductionRate(),
+        category = category
     }
 end
 
 function updateMachines()
     -- Clear
     screen.clear()
-
+    
     -- Package
     local package = {
-        containers = packageMachineInfo(containerAssembler.getInfo()),
-        pipes = packageMachineInfo(pipes.getInfo()),
-        smallAssembler = packageMachineInfo(smallAssembler.getInfo()),
-        coalRefiner = packageMachineInfo(coalRefiner.getInfo()),
-        bauxiteRefiner = packageMachineInfo(bauxiteRefiner.getInfo()),
-        siluminSmelter = packageMachineInfo(siluminSmelter.getInfo()),
-        coalMine = packageMineInfo(coalMine),
-        bauxiteMine = packageMineInfo(bauxiteMine),
-        hematiteMine = packageMineInfo(hematiteMine)
+        packageMachineInfo(containerAssembler, "Assembly"),
+        packageMachineInfo(pipes, "Assembly"),
+        packageMachineInfo(smallAssembler, "Assembly"),
+        packageMachineInfo(coalRefiner, "Refining"),
+        packageMachineInfo(bauxiteRefiner, "Refining"),
+        packageMachineInfo(siluminSmelter, "Intermediates"),
+        packageMineInfo(coalMine, "Mines"),
+        packageMineInfo(bauxiteMine, "Mines"),
+        packageMineInfo(hematiteMine, "Mines")
     }
 
     local input = json.encode(package)
