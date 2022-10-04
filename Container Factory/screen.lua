@@ -21,9 +21,8 @@ local statusNames = {
     [7] = { text = "No Schematics", color = colorRed }
 }
 local machineRenderHeight = 2 * 2 * fontSize + 2 * 2
-local machineRenderWidth = 200
+local machineRenderWidth = 247
 local mineRenderHeight = machineRenderHeight + machineRenderHeight
-local machineRenderWidth = 200
 
 -- Render Methods
 function writeTextLine(text, x, y, color, font, fontSize)
@@ -92,4 +91,4 @@ for key, machine in ipairs(data) do
     table.insert(columns[machine.category], machine)
 end
 
-renderColumns(columns, 8, 0, 10)
+renderColumns(columns, 8, 0, 4)

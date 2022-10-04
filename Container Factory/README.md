@@ -12,6 +12,4 @@
   1. Copy screen contents into the lua section of the screen, replacing anything that's there.
 
 ## To DO
-* Update the screen's render logic to render an arbitrary set of machines sorted by columns
-* Update the controllers' update method to poll all connected machines (if possible)
-
+* Leverage Data stores to share info between multiple controllers.
