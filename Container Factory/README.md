@@ -1,7 +1,17 @@
 # Container Factory
 
+## Usage
+1. Place a controller
+  1. Create an onTimer event handler with the "refreshMachineData" filter
+    1. Copy unit_onTimer contents into the event handler
+  1. Create an onStart event handler.
+    1. Copy unit_onStart contents into the event handler
+  1.  Create an onStop event handler.
+    1. Copy unit_onStop contents into the event handler
+1. Place a screen
+  1. Copy screen contents into the lua section of the screen, replacing anything that's there.
+
 ## To DO
 * Update the screen's render logic to render an arbitrary set of machines sorted by columns
-* Update the controller's update method to run periodically
 * Update the controllers' update method to poll all connected machines (if possible)
 

@@ -39,3 +39,6 @@ end
 
 -- Initial Update
 updateMachines()
+
+-- Begin Timer for refreshes
+unit.setTimer("refreshMachineData", 10)
